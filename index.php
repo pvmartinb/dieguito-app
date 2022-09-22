@@ -69,5 +69,10 @@ function actual($zona){
 		<a href="./Consulta.php">Consulta</a>
 		<br>
 		<a href="./Informes.php">Informes</a>
+		<?php
+		$page = $_SERVER['PHP_SELF'];
+		$sec = "1";
+		header("Refresh: $sec; url=$page");
+		?>
 	</body>
 </html>
