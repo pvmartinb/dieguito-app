@@ -44,13 +44,16 @@ function actual($zona){
 				<td>zona</td><td>actualmente</td><td>en espera</td>
 			</tr>
 			<tr>
-				<td>recepcion</td><td></td><td><?php espera(1);?></td>
+				<td>recepcion</td><td><?php actual(1)?></td><td></td>
 			</tr>
 			<tr>
 				<td>toma de signos</td><td><?php actual(2);?></td><td><?php espera(2);?></td>
 			</tr>
 			<tr>
 				<td>consulta</td><td><?php actual(3)?></td><td><?php espera(3);?></td>
+			</tr>
+			<tr>
+				<td>informes</td><td><?php actual(6);?></td><td><?php espera(6)?></td>
 			</tr>
 			<tr>
 				<td>sala</td><td><?php actual(4)?></td><td></td>
@@ -64,5 +67,7 @@ function actual($zona){
 		<a href="./Signos.php">Toma de Signos</a>
 		</br>
 		<a href="./Consulta.php">Consulta</a>
+		<br>
+		<a href="./Informes.php">Informes</a>
 	</body>
 </html>
