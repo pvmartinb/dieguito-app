@@ -1,6 +1,17 @@
 <?php
 session_start();
 include 'cnx.php';
+function muestraEsperaConsulta(){
+	global $conectar;
+	$sql="select count(expediente) as n from usuarios where zona_siguiente=3";
+	$res=mysqli_query($conectar,"BEGIN WORK");
+	$res=mysqli_query($conectar,"use dapp");
+	$res=mysqli_query($conectar,$sql);
+	$row=mysqli_fetch_array($res);
+	$n=$row['n'];
+	$res=mysqli_query($conectar,"COMMIT");
+	echo "Pacientes esperando para consulta: ".$n."<br>";	
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -37,6 +48,7 @@ include 'cnx.php';
 				$res=mysqli_query($conectar,$sql);
 				$res=mysqli_query($conectar,"COMMIT");
 				$_SESSION['ID']=$max;
+				muestraEsperaConsulta();
 				echo "expediente: ".$_SESSION['expediente']."<br>";
 				echo '<form method=POST>';
 				echo 'zona siguiente: <select name=zonaSig>';
@@ -65,12 +77,14 @@ include 'cnx.php';
 				$sql="update usuarios set zona_actual=4 where expediente=".$_SESSION['expediente'];
 				$res=mysqli_query($conectar,$sql);
 				$res=mysqli_query($conectar,"COMMIT");
+				muestraEsperaConsulta();
 				echo '<form method=POST>';
 				echo 'expediente: <input type="text" name="expediente"></input><br>';
 				echo '<input type="submit" name="inicio" value="inicio">';
 				echo '</form>';
 			}
 			else {
+				muestraEsperaConsulta();
 				echo '<form method=POST>';
 				echo 'expediente: <input type="text" name="expediente"></input><br>';
 				echo '<input type="submit" name="inicio" value="inicio">';

@@ -1,5 +1,27 @@
 <?php
 include 'cnx.php';
+function espera($zona){
+	global $conectar;
+	$res=mysqli_query($conectar,"BEGIN WORK");
+	$res=mysqli_query($conectar,"use dapp");
+	$sql="select count(expediente) as n from usuarios where zona_siguiente=".$zona;
+	$res=mysqli_query($conectar,$sql);
+	$row=mysqli_fetch_array($res);
+	$n=$row['n'];
+	$res=mysqli_query($conectar,"COMMIT");
+	echo $n;
+}
+function actual($zona){
+	global $conectar;
+	$res=mysqli_query($conectar,"BEGIN WORK");
+	$res=mysqli_query($conectar,"use dapp");
+	$sql="select count(expediente) as n from usuarios where zona_actual=".$zona;
+	$res=mysqli_query($conectar,$sql);
+	$row=mysqli_fetch_array($res);
+	$n=$row['n'];
+	$res=mysqli_query($conectar,"COMMIT");
+	echo $n;
+}
 ?>
 <DOCTYPE! html>
 <html>
@@ -17,6 +39,24 @@ include 'cnx.php';
 			echo "pacientes en coi: ".$r;
 		?>
 		</br>
+		<table>
+			<tr>
+				<td>zona</td><td>actualmente</td><td>en espera</td>
+			</tr>
+			<tr>
+				<td>recepcion</td><td></td><td><?php espera(1);?></td>
+			</tr>
+			<tr>
+				<td>toma de signos</td><td><?php actual(2);?></td><td><?php espera(2);?></td>
+			</tr>
+			<tr>
+				<td>consulta</td><td><?php actual(3)?></td><td><?php espera(3);?></td>
+			</tr>
+			<tr>
+				<td>sala</td><td><?php actual(4)?></td><td></td>
+			</tr>
+		</table>
+		<br>
 		<a href="./NuevoExpediente.php">Nuevo Expediente</a>
 		</br>
 		<a href="./Recepcion.php">Recepcion</a>
