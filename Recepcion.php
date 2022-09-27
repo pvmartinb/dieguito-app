@@ -33,7 +33,7 @@ include 'cnx.php';
 				$sql.="'".date('H:i:s')."',NULL,";
 				$sql.="1)";
 				$res=mysqli_query($conectar,$sql);
-				$sql="update usuarios set zona_actual=1 where expediente=".$_SESSION['expediente'];
+				$sql="update usuarios set zona_actual=1, zona_siguiente=5 where expediente=".$_SESSION['expediente'];
 				$res=mysqli_query($conectar,$sql);
 				$res=mysqli_query($conectar,"COMMIT");
 				$_SESSION['ID']=$max;

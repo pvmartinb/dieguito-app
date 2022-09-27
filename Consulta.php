@@ -12,6 +12,22 @@ function muestraEsperaConsulta(){
 	$res=mysqli_query($conectar,"COMMIT");
 	echo "Pacientes esperando para consulta: ".$n."<br>";	
 	}
+function muestraSelect($zona){
+	global $conectar;
+	$sql="select * from usuarios where zona_siguiente=".$zona;
+	$res=mysqli_query($conectar,"BEGIN WORK");
+	$res=mysqli_query($conectar,$sql);
+	$row=1;
+	$select=NULL;
+	echo "<select name=expediente>";
+	while ($row) {
+		$row=mysqli_fetch_array($res);
+		$select.="<option value=".$row['expediente']." name='expediente'>".$row['expediente']."</option>";
+	}
+	echo $select;
+	echo "</select>";
+	$res=mysqli_query($conectar,"COMMIT");
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -44,7 +60,7 @@ function muestraEsperaConsulta(){
 				$sql.="'".date('H:i:s')."',NULL,";
 				$sql.="3)";
 				$res=mysqli_query($conectar,$sql);
-				$sql="update usuarios set zona_actual=3 where expediente=".$_SESSION['expediente'];
+				$sql="update usuarios set zona_actual=3, zona_siguiente=5 where expediente=".$_SESSION['expediente'];
 				$res=mysqli_query($conectar,$sql);
 				$res=mysqli_query($conectar,"COMMIT");
 				$_SESSION['ID']=$max;
@@ -79,14 +95,18 @@ function muestraEsperaConsulta(){
 				$res=mysqli_query($conectar,"COMMIT");
 				muestraEsperaConsulta();
 				echo '<form method=POST>';
-				echo 'expediente: <input type="text" name="expediente"></input><br>';
+				echo 'expediente: ';
+				muestraSelect(3);
+				echo '<br>';
 				echo '<input type="submit" name="inicio" value="inicio">';
 				echo '</form>';
 			}
 			else {
 				muestraEsperaConsulta();
 				echo '<form method=POST>';
-				echo 'expediente: <input type="text" name="expediente"></input><br>';
+				echo 'expediente: ';
+				muestraSelect(3);
+				echo '<br>';
 				echo '<input type="submit" name="inicio" value="inicio">';
 				echo '</form>';	
 			}
